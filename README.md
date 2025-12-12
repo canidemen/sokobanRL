@@ -2,7 +2,7 @@
 
 CS 175 Final Project - Training a Proximal Policy Optimization (PPO) agent to solve Sokoban puzzles.
 
-## Quick Start (For Graders)
+## Quick Start
 
 ### Option 1: Run the Demo (Fastest - 2 minutes)
 
