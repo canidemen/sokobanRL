@@ -69,7 +69,7 @@ jupyter notebook src/sokoban_notebook.ipynb
 %cd sokobanRL
 !pip install -r requirements.txt
 
-# Upload checkpoint file to /content/checkpoints/
+# Upload checkpoint file to /google_colab_checkpoints/
 ```
 
 ## Requirements
@@ -231,7 +231,7 @@ pip install --upgrade imageio[ffmpeg]
 ### Checkpoint not found
 Verify the checkpoint path:
 - Local: `checkpoints/ppo_sokoban_ep3000.pth`
-- Google Colab: `/content/checkpoints/ppo_sokoban_ep3000.pth`
+- Google Colab: `/google_colab_checkpoints/ppo_sokoban_ep3000.pth`
 
 ## Performance Expectations
 
