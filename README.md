@@ -6,7 +6,7 @@ CS 175 Final Project - Training a Proximal Policy Optimization (PPO) agent to so
 
 ### Option 1: Run the Demo (Fastest - 2 minutes)
 
-1. Open `src/sokoban_notebook.ipynb` in Jupyter Notebook or VS Code
+1. Open `src/project.ipynb` in Jupyter Notebook or VS Code
 2. Run cells 1-9 sequentially (setup, imports, class definitions)
 3. **Run Cell 10 (DEMO)** - This will:
    - Load a pre-trained checkpoint (ep3000)
@@ -31,15 +31,12 @@ CS 175 Final Project - Training a Proximal Policy Optimization (PPO) agent to so
 ```
 sokobanRL/
 ├── src/
-│   ├── sokoban_notebook.ipynb    # Main notebook (START HERE)
-│   ├── ppo_agent.py               # Standalone PPO implementation
-│   └── test_checkpoint.py         # Evaluation script
-├── checkpoints/                   # Saved model checkpoints
-│   └── ppo_sokoban_ep3000.pth    # Pre-trained model (included)
-├── puzzle_videos/                 # Generated visualization videos
-├── logs/                          # Training logs
-├── requirements.txt               # Python dependencies
-└── README.md                      # This file
+│   ├── requirements.txt                # Python dependencies
+│   └── project.ipynb                   # Main notebook (START HERE)
+├── google_colabcheckpoints/            # Saved model checkpoints
+│   └── ppo_sokoban_ep3000.pth          # Pre-trained model (included)
+├── puzzle_videos/                      # Generated visualization videos
+└── README.md                           # This file
 ```
 
 ## Installation
@@ -58,18 +55,7 @@ source .venv/bin/activate  # On Windows: .venv\\Scripts\\activate
 pip install -r requirements.txt
 
 # 4. Launch Jupyter
-jupyter notebook src/sokoban_notebook.ipynb
-```
-
-### Google Colab Setup
-
-```python
-# Run this in a Colab cell
-!git clone <repository-url> sokobanRL
-%cd sokobanRL
-!pip install -r requirements.txt
-
-# Upload checkpoint file to /google_colab_checkpoints/
+jupyter notebook src/project.ipynb
 ```
 
 ## Requirements
@@ -130,12 +116,11 @@ To accelerate learning in this sparse reward environment, we add intermediate re
 
 The included checkpoint (`ppo_sokoban_ep3000.pth`) was trained for 3000 episodes:
 
-- **Success Rate**: ~18-22% on Sokoban-small-v0
-- **Average Reward**: ~-5 to +2 (after removing shaping bonuses)
+- **Success Rate**: ~10% on Sokoban-small-v0
 - **Training Time**: ~8 hours on CPU
 - **Final Episode**: 3000
 
-Performance plateaus around episode 1500-2000, indicating the agent has learned effective strategies within the constraints of the small grid environment.
+Performance plateaus around episode 2000-2500, indicating the agent has learned effective strategies within the constraints of the small grid environment.
 
 ## Features
 
@@ -161,35 +146,6 @@ Provides intermediate feedback to guide learning in sparse reward environments.
 - Resume training from any checkpoint
 - Load for evaluation without retraining
 
-## Usage Examples
-
-### Evaluate Pre-trained Agent
-
-```python
-# In notebook or Python script
-from ppo_agent import PPOAgent
-import gym
-import gym_sokoban
-
-env = gym.make('Sokoban-small-v0')
-agent = PPOAgent(env)
-agent.load('checkpoints/ppo_sokoban_ep3000.pth')
-
-# Run 10 test episodes
-for episode in range(10):
-    state = env.reset()
-    done = False
-    total_reward = 0
-
-    while not done:
-        action, _ = agent.select_action(state)
-        state, reward, done, info = env.step(action)
-        total_reward += reward
-
-    success = info.get('all_boxes_on_target', False)
-    print(f"Episode {episode+1}: Reward={total_reward:.2f}, Success={success}")
-```
-
 ### Train New Agent
 
 ```python
@@ -202,70 +158,8 @@ episode_rewards = train(
 )
 ```
 
-### Generate Visualization Videos
-
-```python
-visualize_agent_pygame(
-    checkpoint_path='checkpoints/ppo_sokoban_ep3000.pth',
-    save_videos=True,
-    output_dir='puzzle_videos',
-    min_success_reward=10.0  # Only show high-quality successes
-)
-```
-
-## Troubleshooting
-
-### ImportError: No module named 'gym_sokoban'
-```bash
-pip install gym-sokoban
-```
-
-### Pygame window doesn't open
-Make sure you're running locally, not on a headless server. For Google Colab, use the evaluation functions without visualization.
-
-### FFMPEG errors when saving videos
-```bash
-pip install --upgrade imageio[ffmpeg]
-```
-
 ### Checkpoint not found
-Verify the checkpoint path:
-- Local: `checkpoints/ppo_sokoban_ep3000.pth`
-- Google Colab: `/google_colab_checkpoints/ppo_sokoban_ep3000.pth`
-
-## Performance Expectations
-
-| Metric | Untrained Agent | Trained Agent (ep3000) |
-|--------|----------------|------------------------|
-| Success Rate | 0-1% | 18-22% |
-| Avg Reward | -15 to -12 | -5 to +2 |
-| Avg Steps | 150 (timeout) | 80-120 |
-| Boxes on Target | 0-1 | 1-2 (complete) |
-
-## Known Limitations
-
-1. **Success Rate Plateau**: Performance plateaus around 20% due to:
-   - Limited exploration in fixed-size grid
-   - Difficulty generalizing across random puzzle configurations
-   - Local optima in policy space
-
-2. **Reward Farming**: Earlier versions learned to collect shaping rewards without solving puzzles. Fixed by:
-   - Reducing reward magnitude (0.5→0.1, 2.0→0.5)
-   - Adding timeout penalty (-3.0)
-   - Making completion reward 20-100x more valuable
-
-3. **Catastrophic Forgetting**: Some checkpoints show performance degradation after extended training. Mitigated by:
-   - Entropy regularization
-   - Value function clipping
-   - Gradient clipping
-
-## Future Improvements
-
-- Curriculum learning: Start with 1-box puzzles, gradually increase difficulty
-- Prioritized experience replay for rare successful trajectories
-- Multi-environment training for better generalization
-- Hierarchical RL: Learn sub-policies for box pushing, navigation, etc.
-- Transfer learning to harder Sokoban variants (larger grids, more boxes)
+Verify the checkpoint path: `google_colab_checkpoints/ppo_sokoban_ep3000.pth`
 
 ## Citation
 
@@ -277,7 +171,3 @@ This project uses:
 ## License
 
 Educational use for CS 175. See individual library licenses for dependencies.
-
-## Contact
-
-For questions or issues, please contact [your contact info here].
