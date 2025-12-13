@@ -41,6 +41,12 @@ sokobanRL/
 
 ## Installation
 
+**Important**: Install Git LFS before cloning to prevent corruption of the pre-trained model file (`ppo_sokoban_ep3000.pth`):
+
+```bash
+git lfs install
+```
+
 ### Local Setup
 
 ```bash
