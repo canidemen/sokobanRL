@@ -34,7 +34,8 @@ sokobanRL/
 │   ├── requirements.txt                # Python dependencies
 │   └── project.ipynb                   # Main notebook (START HERE)
 ├── google_colabcheckpoints/            # Saved model checkpoints
-│   └── ppo_sokoban_ep3000.pth          # Pre-trained model (included)
+│   └── sokoban-small-v0
+│      └── ppo_sokoban_ep3000.pth          # Pre-trained model (included)
 ├── puzzle_videos/                      # Generated visualization videos
 └── README.md                           # This file
 ```
@@ -165,7 +166,7 @@ episode_rewards = train(
 ```
 
 ### Checkpoint not found
-Verify the checkpoint path: `google_colab_checkpoints/ppo_sokoban_ep3000.pth`
+Verify the checkpoint path: `google_colab_checkpoints/small-sokoban-v0/ppo_sokoban_ep3000.pth`
 
 ## Citation
 
